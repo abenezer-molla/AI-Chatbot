@@ -1,22 +1,21 @@
 :- [kb].
 :- use_module(library(random)).
-:- dynamic name_of_student/1 , courses_the_student_taken_as_CSandAI_major/1. #GETBACK TO THIS
+:- dynamic name_of_student/1 , courses_the_student_taken_as_CSandAI_major/1, student_country_of_origin/1.
 
 % ####################################################################
 % Matches where-is, how-do-i-find patterns.
-
 
 % chat/0
 %
 % top level call, starts conversation loop
 chat:-
 	processing_welcome_messages,
-	conversations.
+	begin_series_of_conversations.
 
 % conversations/0
 %
 % Main chatbot backtracking loop. Repeats until user enters "bye".
-conversations:-
+begin_series_of_conversations:-
 	repeat, % repeat through backtracking 
 	prompt(you), % Marked
 	set_of_general_reply(A,B), % Marked
@@ -90,7 +89,6 @@ set_of_general_reply(Inp, B):- % give a random answer
         list_of_responses(giveRandomAnswer, Result),
         pick_random_response_from_list(Res, B).
 
-
 %   ####################################################
 iterativeUserFeedback(0). % GETBACK 
 iterativeUserFeedback(N):-
@@ -106,6 +104,7 @@ iterativeUserFeedback(N):-
 % and asserts the responses into the database.
 collect_and_assert_information(0).
 collect_and_assert_information(N):-
+
         list_of_inquiries(basic_info_of_student, D),
         check_for_list_item_with_given_index(D, N, Q), % GETBACK
         prompt(me),
@@ -118,25 +117,24 @@ collect_and_assert_information(N):-
 
 collect_and_assert_information(QL, RL):-
         check_for_list_item_with_given_index(QL, 1, Q),
-        check_for_substring_in_string(Q, student), !,
+        check_for_substring_in_stringStudent(Q, student), !,
         retrieve_name_of_the_student(Q, RL).
 
 collect_and_assert_information(QL, RL):-
         check_for_list_item_with_given_index(QL, 1, Q),
-        check_for_substring_in_string(Q, subjects), !,
+        check_for_substring_in_stringStudent(Q, courses), !,
         collect_info_about_CSandAI_courses(RL). % GET INFO
 
 collect_and_assert_information(QL, RL):-
         check_for_list_item_with_given_index(QL, 1, Q),
-        check_for_substring_in_string(Q, from), !,
-        assert(usr_location(RL)).
+        check_for_substring_in_stringCountry(Q, country), !,
+        collect_Info_about_students_country(RL). % GET INFO
 
 collect_and_assert_information(_, _).
 
 % get_usr_name/1
 % 
 % Prompts the user to input a valid name, and asserts it.
-
 
 retrieve_name_of_the_student(Q):-
         prompt(you),
@@ -186,6 +184,32 @@ check_if_CSandAI_course_exists(Inp):-
         A \== [],
         assert(courses_the_student_taken_as_CSandAI_major(A)).
 
+
+collect_Info_about_students_country:-
+	prompt(you),
+	collect_Info_about_students_country(Inp).
+collect_Info_about_students_country(Inp):- 
+	check_if_country_exists(Inp), !.
+collect_Info_about_students_country(_):- 
+        list_of_responses(responseToInputCountry, D),
+        pick_random_response_from_list(D, R),
+        prompt(me),
+        take_inputs_and_add_to_list(R), % GET BACK
+        collect_Info_about_students_country.
+
+% is_valid_alevel/1
+%
+% Checks to see if the given list contains valid alevels,
+% and if so, asserts them
+
+check_if_country_exists(Inp):- 
+        list_of_available_world_countries(D),
+        checking_intersection_between_two_subsets(Inp, D, A),
+        A \== [],
+        assert(student_country_of_origin(A)).
+
+check_if_country_exists
+
 %   ####################################################
 
 % is_greeting(Sentence)
@@ -214,8 +238,6 @@ checkForTheWord_Thanks(Inp):-
         A \== [].
 
 
-
-%
 % Checks if the given sentence S contains the word "bye".
 time_to_quit_chat(Inp):- 
         check_if_subset_exists([bye], Inp).
@@ -255,15 +277,13 @@ pick_random_response_from_list(Result, B):-
     check_for_list_item_with_given_index(Result, RandomVal, B).
 
 
-% print_report/0
-%
 % Outputs a conversation summary based on facts gathered 
 % during chat.
 print_overall_conversation_outcome:-
-    write('\n--- Conversation report ---\n'),
-    name_of_student(X), usr_location(Y), courses_the_student_taken_as_CSandAI_major(Z), 
-        take_inputs_and_add_to_list(['User name: ', X, '\nFrom: ', Y, '\nStudying: ', Z]),
-        retract(name_of_student(X)),retract(usr_location(Y)), retract(courses_the_student_taken_as_CSandAI_major(Z)), fail.
+    write('\n--- summary of the conversation with important student details ---\n'),
+    name_of_student(X), student_country_of_origin(Y), courses_the_student_taken_as_CSandAI_major(Z), 
+        take_inputs_and_add_to_list(['Name of Student: ', X, '\nCountry of Origin: ', Y, '\n CS & AI Course/Courses taken: ', Z]),
+        retract(name_of_student(X)),retract(student_country_of_origin(Y)), retract(courses_the_student_taken_as_CSandAI_major(Z)), fail.
 print_overall_conversation_outcome:-
     nl, seeking_improvement(X, Y), write(X), write(' : '), take_inputs_and_add_to_list(Y), 
     retract(seeking_improvement(X, Y)), fail.

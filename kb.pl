@@ -45,14 +45,251 @@ list_of_responses(location, [
     ]).
 
 
-
 list_of_responses(responseToInputCourses, [
-    ['Haven\'t heard of that one before!'],
-    ['That\'s not a real subject...'],
-    ['Are you sure?'],
-    ['Hold on, I need to know about your A-levels!'],
-    ['Don\'t you want to tell me your A-levels?']
+    ['I guess, you migth have made a mistake. Check again.'],
+    ['I do not know that subject for Cs and AI majors. Maybe try again will small letters only.'],
+    ['I blieve that is not one of the CS and AI requirements.'],
+    ['Maybe you are inserting couses from electives. Please stay in College of Computational Sciences only.'],
+    ['I would appreciate it very much if you provide me a proper answer']
     ]).
+
+required_cs_courses_to_graduate_as_CS_and_AI_concentration(
+    [cs110,
+    cs142,
+    cs152,
+    cs162,
+    cs112,
+    cs111A,
+    cs152,
+    il91,
+    il92,
+    il93,
+    il94,
+    il95,
+    il96,
+    il97,
+    il98,
+    cp191,
+    cp192,
+    cp193,
+    cp194,
+    ah50,
+    ah51,
+    cs50,
+    cs51,
+    ns50,
+    ns51,
+    ss50,
+    ss51,
+    il199
+    ]).
+
+
+list_of_responses(responseToInputCountry, [
+    ['I guess, you migth have made a mistake. Check again.'],
+    ['I do not think that country is real. Check again'],
+    ['Maybe, you have told me about your city. Try country'],
+    ['It is a good idea to check the spelling. I am unaware of that country.'],
+    ['I would appreciate it very much if you provide me a proper answer']
+    ]).
+
+list_of_available_world_countries(
+    [afghanistan,
+    albania,
+    algeria,
+    andorra,
+    antigua and aarbuda,
+    argentina,
+    armenia,
+    australia,
+    austria	,
+    azerbaijan,
+    bahamas,
+    bahrain,
+    bangladesh,
+    barbados,
+    belarus,
+    belgium,
+    belize,
+    benin,
+    bhutan,
+    bolivia,
+    bosnia and herzegovina,
+    botswana,
+    brazil,
+    brunei,
+    bulgaria,
+    burkina faso,
+    burundi,
+    côte deIvoire, 
+    cabo verde, 
+    cambodia, 
+    cameroon,
+    canada, 
+    central african republic, 
+    chad, 
+    chile, 
+    china,
+    colombia, 
+    comoros, 
+    congo, 
+    costa rica, 
+    croatia, 
+    cuba, 
+    cyprus, 
+    czechia, 
+    democratic republic of the congo, 
+    denmark, 
+    djibouti, 
+    dominica, 
+    dominican republic, 
+    ecuador, 
+    egypt, 
+    el salvador, 
+    equatorial guinea, 
+    eritrea, 
+    estonia, 
+    eswatini, 
+    ethiopia, 
+    fiji, 
+    finland, 
+    france, 
+    gabon, 
+    gambia, 
+    georgia, 
+    germany, 
+    ghana, 
+    greece, 
+    grenada, 
+    guatemala, 
+    guinea, 
+    guinea-bissau, 
+    guyana, 
+    haiti, 
+    holy see, 
+    honduras, 
+    hungary, 
+    iceland, 
+    india, 
+    indonesia, 
+    iran, 
+    iraq, 
+    ireland, 
+    israel, 
+    italy, 
+    jamaica, 
+    japan, 
+    jordan, 
+    kazakhstan, 
+    kenya, 
+    kiribati, 
+    kuwait, 
+    kyrgyzstan, 
+    laos, 
+    latvia, 
+    lebanon, 
+    lesotho, 
+    liberia, 
+    libya, 
+    liechtenstein, 
+    lithuania, 
+    luxembourg, 
+    malawi, 
+    malaysia, 
+    maldives, 
+    mali, 
+    malta, 
+    marshall islands, 
+    mauritania, 
+    mauritius, 
+    mexico, 
+    micronesia, 
+    moldova, 
+    monaco, 
+    mongolia, 
+    montenegro, 
+    morocco, 
+    mozambique, 
+    myanmar, 
+    namibia, 
+    nauru, 
+    nepal, 
+    netherlands, 
+    new zealand, 
+    nicaragua, 
+    niger, 
+    nigeria, 
+    north korea, 
+    north macedonia, 
+    norway, 
+    oman, 
+    pakistan, 
+    palau, 
+    palestine state, 
+    panama, 
+    papua new guinea, 
+    paraguay, 
+    peru, 
+    philippines, 
+    poland, 
+    portugal, 
+    qatar, 
+    romania, 
+    russia, 
+    rwanda, 
+    saint kitts and nevis, 
+    saint lucia, 
+    saint vincent and the grenadines, 
+    samoa, 
+    san marino,
+    sao tome and principe, 
+    saudi arabia, 
+    senegal, 
+    serbia,
+    seychelles, 
+    sierra leone, 
+    singapore, 
+    slovakia, 
+    slovenia, 
+    solomon islands, 
+    somalia, 
+    south africa, 
+    south korea, 
+    south sudan, 
+    spain, 
+    sri lanka, 
+    sudan, 
+    suriname, 
+    sweden, 
+    switzerland, 
+    syria, 
+    tajikistan, 
+    tanzania, 
+    thailand, 
+    timor-leste, 
+    togo, 
+    tonga, 
+    trinidad and tobago, 
+    tunisia, 
+    turkey, 
+    turkmenistan, 
+    tuvalu, 
+    uganda, 
+    ukraine, 
+    united arab emirates, 
+    united kingdom, 
+    united states of america, 
+    uruguay, 
+    uzbekistan, 
+    vanuatu, 
+    venezuela, 
+    vietnam, 
+    yemen, 
+    zambia, 
+    zimbabwe
+
+    ]).
+
 
 list_of_responses(requestingName, [
     ['You are joking. Is that your name.'],
@@ -65,7 +302,7 @@ list_of_responses(requestingName, [
 list_of_responses(botName, [
     ['I am Aben. How can I help you?'],
     ['Aben, sir/maam'],
-    ['You\'r talking to Aben'],
+    ['You\'re talking to Aben'],
     ['Aben- ready for service'],
     ['Aben here- what is up?']
     ]).
@@ -91,9 +328,9 @@ list_of_responses(showingGratitude, [
 
 list_of_gratitudes([
     thanks,
+    appreciated,
     thankyou,
-    thank,
-    cheers
+    awesome
     ]).
 
 list_of_responses(responseToGratitude, [
@@ -149,6 +386,7 @@ list_of_inquiries(seeking_improvement, [
     ['On the scale of 5 stars, what will you give me?']
     ]).
 
+
 list_of_inquiries(basic_info_of_student, [
     ['What is your name buddy?'],
     ['And you said you are from Minerva?'],
@@ -157,39 +395,6 @@ list_of_inquiries(basic_info_of_student, [
     ['Where are you from originally?']
     ]).
 
-
-
-
-required_cs_courses_to_graduate_as_CS_and_AI_concentration(
-    [cs110,
-    cs142,
-    cs152,
-    cs162,
-    cs112,
-    cs111A,
-    cs152,
-    il91,
-    il92,
-    il93,
-    il94,
-    il95,
-    il96,
-    il97,
-    il98,
-    cp191,
-    cp192,
-    cp193,
-    cp194,
-    ah50,
-    ah51,
-    cs50,
-    cs51,
-    ns50,
-    ns51,
-    ss50,
-    ss51,
-    il199
-    ]).
 
 % ####################################################################
 % names of students from CS152 class
@@ -223,7 +428,7 @@ askingBotNationality([which, country, are, you, representing, X |_], X):-!.
 askingBotNationality([which country , are, you, from, X |_], X):-!.
 askingBotNationality([what, is, your, nationality, X |_], X):-!.
 askingBotNationality([where, were, you, born, and, raised, X |_], X):-!.
-askingBotNationality([where, was, your, passport, issues, X |_], X):-!.
+askingBotNationality([where, was, your, passport, issued, X |_], X):-!.
 
 askingBotNationality([_|T], X):-
     askingBotNationality(T, X).
@@ -285,20 +490,40 @@ check_for_list_item_with_given_index([_|T], N, X):-
 % contains(String, SubString)
 %
 % True if the substring exists in String.
-check_for_substring_in_string(A, B) :-
+check_for_substring_in_stringStudent(A, B) :-
   atom(A),
   atom(B),
   student(A, AA),
   student(B, BB),
-  check_for_substring_in_string(AA, BB).
-check_for_substring_in_string(A, B) :-
+  check_for_substring_in_stringStudent(AA, BB).
+check_for_substring_in_stringStudent(A, B) :-
   atom(A),
   student(A, AA),
-  check_for_substring_in_string(AA, B).
-check_for_substring_in_string(A, B) :-
-  sublist(B, A),
+  check_for_substring_in_stringStudent(AA, B).
+check_for_substring_in_stringStudent(A, B) :-
+  go_into_inner_list_if_matrixForm(B, A),
   B \= [].
 
-sublist(S, L) :-
+go_into_inner_list_if_matrixForm(S, L) :-
   append(_, L2, L),
   append(S, _, L2).
+
+
+
+check_for_substring_in_stringCountry(A, B) :-
+    atom(A),
+    atom(B),
+    student(A, AA),
+    student(B, BB),
+    check_for_substring_in_stringCountry(AA, BB).
+check_for_substring_in_stringCountry(A, B) :-
+    atom(A),
+    student(A, AA),
+    check_for_substring_in_stringCountry(AA, B).
+check_for_substring_in_stringCountry(A, B) :-
+    go_into_inner_list_if_matrixForm(B, A),
+    B \= [].
+  
+  go_into_inner_list_if_matrixForm(S, L) :-
+    append(_, L2, L),
+    append(S, _, L2).
