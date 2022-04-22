@@ -64,32 +64,44 @@ set_of_general_reply(A, B):-
         pick_random_response_from_list(D, B). 
 
 
-% 
+% the code below checks for the question asked
+% set_of_info_collected will be populated once the infor is collected.
+% you will see how it is going to get called later in the code. 
 set_of_general_reply(Inp, B):- 
         \+ check_for_question_asked(Inp), 
         \+ set_of_info_collected(_, _), !,
-        collect_and_assert_information(4), 
+        collect_and_assert_information(4),
         list_of_responses(showingGratitude, D), 
         pick_random_response_from_list(D, B).
 
 
+
+% this is the logic that handles the way the bot is going to see feedback from the user. (refer to kb.pl to see the connection)
 set_of_general_reply(Inp, B):- 
         \+ check_for_question_asked(Inp), 
         \+ seeking_improvement(_, _), !,
-        iterativeUserFeedback(4), 
+        iterativeUserFeedback(4),  % because I have 4 feedbacks to choose and iterate from. this number changes when feedback choices in kb.pl increase.
         list_of_responses(showingGratitude, D),
         pick_random_response_from_list(D, B).
 
+% in kb.pl i discussed about how human beings ask unrelated(and/or) distracting conversation and not follow a strict back and forth reply. 
+% I want to give the bot that kind of property by letting him ask some distracting, but funny-ish, questions.
+% look back into kb.pl file to see how this logic maps back to the data. 
 set_of_general_reply(Inp, B):-
         \+ check_for_question_asked(Inp), !,
 	list_of_responses(distractingTheUser, Result),
 	pick_random_response_from_list(Result, B).
 
+
+% if our item of interest is not a question we're prepared for, then we would give the random answers we have in the kb. 
+% look back to kb.pl to see what those answers look like
 set_of_general_reply(Inp, B):- 
         check_for_question_asked(Inp), !,
         list_of_responses(giveRandomAnswer, Result),
         pick_random_response_from_list(Result, B).
 
+
+% a logic to handle the iterative feedback. 
 iterativeUserFeedback(0). 
 iterativeUserFeedback(Index):-
         list_of_inquiries(seeking_improvement, D),
@@ -103,12 +115,10 @@ iterativeUserFeedback(Index):-
 
 %#######################################################################################
 
-
-
-% and asserts the responses into the database.
+% A series of validation and assertion to kb will take place in the codes below.
+% I made the variable name very self-explanatory for anyone to read and understand what is going on.
 collect_and_assert_information(0).
 collect_and_assert_information(Index):-
-
         list_of_inquiries(basic_info_of_student, D),
         check_for_list_item_with_given_index(D, Index, Q), 
         prompt(me),
@@ -121,7 +131,7 @@ collect_and_assert_information(Index):-
 
 collect_and_assert_information(QL, RL):-
         check_for_list_item_with_given_index(QL, 1, Q),
-        check_for_substring_in_stringStudent(Q, student), !,
+        check_for_substring_in_stringStudent(Q, student), !, 
         retrieve_name_of_the_student(Q, RL).
 
 collect_and_assert_information(QL, RL):-
@@ -134,9 +144,10 @@ collect_and_assert_information(QL, RL):-
         check_for_substring_in_stringCountry(Q, country), !,
         collect_Info_about_students_country(RL). 
 
-collect_and_assert_information(_, _).
+collect_and_assert_information(_, _). 
 
-%   ####################################################
+% #####################################################################
+% the codes below are to retrieve and validate the student's name and other info.
 retrieve_name_of_the_student(Q):-
         prompt(you),
         retrieve_name_of_the_student(Q, Inp).
@@ -156,7 +167,8 @@ check_if_name_exists(NL):-
         student(N),
         assert(name_of_student(N)).
 
-%   ####################################################
+% ###########################################################################
+% the codes below are to retrieve and validate the student's courses taken and other info.
 collect_info_about_CSandAI_courses:-
 	prompt(you),
 	collect_info_about_CSandAI_courses(Inp).
@@ -169,6 +181,7 @@ collect_info_about_CSandAI_courses(_):-
         take_inputs_and_add_to_list(R), 
         collect_info_about_CSandAI_courses.
 
+
 check_if_CSandAI_course_exists(Inp):- 
         required_cs_courses_to_graduate_as_CS_and_AI_concentration(D),
         checking_intersection_between_two_subsets(Inp, D, A),
@@ -176,7 +189,8 @@ check_if_CSandAI_course_exists(Inp):-
         assert(courses_the_student_taken_as_CSandAI_major(A)).
 
 
-%   ####################################################
+%   ########################################################################
+% the codes below are to retrieve and validate the student's country of origin and other info.
 collect_Info_about_students_country:-
 	prompt(you),
 	collect_Info_about_students_country(Inp).
@@ -200,33 +214,36 @@ check_if_country_exists
 
 %   ####################################################
 
-
+%checking for greeting words
 checkForGreetingWord(Inp):-
         list_of_greetings(D),
         checking_intersection_between_two_subsets(Inp, D, A), 
         A \== [].
 
 %   ####################################################
+% serves are a validation tool for the questions asked. If the question is something the bot can't adress, then it will go to the random set of answers discribed in kb.pl and above.
 check_for_question_asked(Inp):-
         items_of_interest('?', Inp).
 
 %   ####################################################
+% going over the different forms of gratitudes to look for a match/intersection
 checkForTheWord_Thanks(Inp):-
         list_of_gratitudes(D),
         checking_intersection_between_two_subsets(Inp, D, A),
         A \== [].
 
 %   ####################################################
-time_to_quit_chat(Inp):- 
+% when the user says bye, the bot will call it a day too.
+time_to_stop_chat(Inp):- 
         check_if_subset_exists([bye], Inp).
 
 
 %   ####################################################
 processing_welcome_messages:-
-        responses_db(sayingHi, D),
+        set_of_general_reply(sayingHi, D),
         pick_random_response_from_list(D, W),
         prompt(me),
-        record_response(W), 
+        take_inputs_and_add_to_list(W), 
         flush_output. 
 
 
