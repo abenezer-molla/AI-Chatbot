@@ -26,9 +26,7 @@ begin_series_of_conversations:-
 set_of_general_reply(A, B):- 
     time_to_stop_chat(A), !,
 	list_of_responses(sayingBye, Result),  
-	pick_random_response_from_list(Res, B). 
-
-
+	pick_random_response_from_list(Result, B). 
 
 % below checks for greeting words to be picked up so that the bot can respond to them.
 % list_of_responses is defined inside the kb.pl file- refer back and see how things map back
